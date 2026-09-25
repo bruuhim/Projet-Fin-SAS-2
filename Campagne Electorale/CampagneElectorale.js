@@ -269,7 +269,37 @@ function afchliste() {
       }
       break;
     case "3":
-      choix = prompt("Choisir un nom de parti (PAM...")
+      let uniqueParties = [];
+      for (let i = 0; i < candidats.length; i++) {
+        if (!uniqueParties.includes(candidats[i].partiPolitique)) {
+          uniqueParties.push(candidats[i].partiPolitique);
+        }
+      }
+      console.log("Partis disponibles :");
+      for (let i = 0; i < uniqueParties.length; i++) {
+        console.log("- " + uniqueParties[i]);
+      }
+      choix = prompt("Choisir un nom de parti : ");
+
+      for (let i = 0; i < candidats.length; i++) {
+        if (candidats[i].partiPolitique.toUpperCase() === choix.toUpperCase()) {
+          console.log(
+            `------------------ Candidat ${i + 1} ------------------`,
+          );
+          console.log(`CIN : ${candidats[i].cin}`);
+          console.log(`Nom : ${candidats[i].nom}`);
+          console.log(`Prénom : ${candidats[i].prenom}`);
+          console.log(`Parti Politique : ${candidats[i].partiPolitique}`);
+          console.log(`Age : ${candidats[i].age}`);
+          console.log(`Nombre de votes : ${candidats[i].electeurs.length}`);
+        }
+      }
+      break;
+    case "0":
+      afchliste();
+      break;
+    default:
+      console.log("Option invalide, réessayez.");
   }
 }
 
