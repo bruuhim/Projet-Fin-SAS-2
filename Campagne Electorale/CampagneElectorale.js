@@ -225,64 +225,17 @@ function Ajouterplus() {
 }
 
 function afchliste() {
-  console.log("1. Afficher la liste brute");
-  console.log("2. Trier par nombre de votes (ordre décroissant)");
-  console.log("3. Filtrer par parti politique");
-  console.log("0. Retourner");
+  do {
+    console.log("1. Afficher la liste brute");
+    console.log("2. Trier par nombre de votes (ordre décroissant)");
+    console.log("3. Filtrer par parti politique");
+    console.log("0. Retourner");
 
-  choix = prompt("Choisissez une option : ");
+    choix = prompt("Choisissez une option : ");
 
-  switch (choix) {
-    case "1":
-      for (let i = 0; i < candidats.length; i++) {
-        console.log(`------------------ Candidat ${i + 1} ------------------`);
-        console.log(`CIN : ${candidats[i].cin}`);
-        console.log(`Nom : ${candidats[i].nom}`);
-        console.log(`Prénom : ${candidats[i].prenom}`);
-        console.log(`Parti Politique : ${candidats[i].partiPolitique}`);
-        console.log(`Age : ${candidats[i].age}`);
-        console.log(`Nombre de votes : ${candidats[i].electeurs.length}`);
-      }
-      break;
-    case "2":
-      let décroicandidats = [...candidats];
-      for (let i = 0; i < décroicandidats.length; i++) {
-        for (let j = i + 1; j < décroicandidats.length; j++) {
-          if (
-            décroicandidats[i].electeurs.length <
-            décroicandidats[j].electeurs.length
-          ) {
-            let temp = décroicandidats[i];
-            décroicandidats[i] = décroicandidats[j];
-            décroicandidats[j] = temp;
-          }
-        }
-      }
-      for (let i = 0; i < décroicandidats.length; i++) {
-        console.log(`------------------ Candidat ${i + 1} ------------------`);
-        console.log(`CIN : ${décroicandidats[i].cin}`);
-        console.log(`Nom : ${décroicandidats[i].nom}`);
-        console.log(`Prénom : ${décroicandidats[i].prenom}`);
-        console.log(`Parti Politique : ${décroicandidats[i].partiPolitique}`);
-        console.log(`Age : ${décroicandidats[i].age}`);
-        console.log(`Nombre de votes : ${décroicandidats[i].electeurs.length}`);
-      }
-      break;
-    case "3":
-      let uniqueParties = [];
-      for (let i = 0; i < candidats.length; i++) {
-        if (!uniqueParties.includes(candidats[i].partiPolitique)) {
-          uniqueParties.push(candidats[i].partiPolitique);
-        }
-      }
-      console.log("Partis disponibles :");
-      for (let i = 0; i < uniqueParties.length; i++) {
-        console.log("- " + uniqueParties[i]);
-      }
-      choix = prompt("Choisir un nom de parti : ");
-
-      for (let i = 0; i < candidats.length; i++) {
-        if (candidats[i].partiPolitique.toUpperCase() === choix.toUpperCase()) {
+    switch (choix) {
+      case "1":
+        for (let i = 0; i < candidats.length; i++) {
           console.log(
             `------------------ Candidat ${i + 1} ------------------`,
           );
@@ -293,14 +246,72 @@ function afchliste() {
           console.log(`Age : ${candidats[i].age}`);
           console.log(`Nombre de votes : ${candidats[i].electeurs.length}`);
         }
-      }
-      break;
-    case "0":
-      afchliste();
-      break;
-    default:
-      console.log("Option invalide, réessayez.");
-  }
+        break;
+      case "2":
+        let décroicandidats = [...candidats];
+        for (let i = 0; i < décroicandidats.length; i++) {
+          for (let j = i + 1; j < décroicandidats.length; j++) {
+            if (
+              décroicandidats[i].electeurs.length <
+              décroicandidats[j].electeurs.length
+            ) {
+              let temp = décroicandidats[i];
+              décroicandidats[i] = décroicandidats[j];
+              décroicandidats[j] = temp;
+            }
+          }
+        }
+        for (let i = 0; i < décroicandidats.length; i++) {
+          console.log(
+            `------------------ Candidat ${i + 1} ------------------`,
+          );
+          console.log(`CIN : ${décroicandidats[i].cin}`);
+          console.log(`Nom : ${décroicandidats[i].nom}`);
+          console.log(`Prénom : ${décroicandidats[i].prenom}`);
+          console.log(`Parti Politique : ${décroicandidats[i].partiPolitique}`);
+          console.log(`Age : ${décroicandidats[i].age}`);
+          console.log(
+            `Nombre de votes : ${décroicandidats[i].electeurs.length}`,
+          );
+        }
+        break;
+      case "3":
+        let uniqueParties = [];
+        for (let i = 0; i < candidats.length; i++) {
+          if (!uniqueParties.includes(candidats[i].partiPolitique)) {
+            uniqueParties.push(candidats[i].partiPolitique);
+          }
+        }
+        console.log("Partis disponibles :");
+        for (let i = 0; i < uniqueParties.length; i++) {
+          console.log("- " + uniqueParties[i]);
+        }
+        let partiChoisi = prompt("Choisir un nom de parti : ");
+
+        for (let i = 0; i < candidats.length; i++) {
+          if (
+            candidats[i].partiPolitique.toUpperCase() ===
+            partiChoisi.toUpperCase()
+          ) {
+            console.log(
+              `------------------ Candidat ${i + 1} ------------------`,
+            );
+            console.log(`CIN : ${candidats[i].cin}`);
+            console.log(`Nom : ${candidats[i].nom}`);
+            console.log(`Prénom : ${candidats[i].prenom}`);
+            console.log(`Parti Politique : ${candidats[i].partiPolitique}`);
+            console.log(`Age : ${candidats[i].age}`);
+            console.log(`Nombre de votes : ${candidats[i].electeurs.length}`);
+          }
+        }
+        break;
+      case "0":
+        menu();
+        break;
+      default:
+        console.log("Option invalide, réessayez.");
+    }
+  } while (choix !== "0");
 }
 
 do {
