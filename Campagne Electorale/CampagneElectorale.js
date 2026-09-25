@@ -219,13 +219,36 @@ function Ajouterplus() {
   let i = 0;
   while (i < choix) {
     console.log(`------------------ Candidat ${i + 1} ------------------`);
-    Ajouter()
-    i++
+    Ajouter();
+    i++;
   }
 }
 
 function afchliste() {
-  
+  console.log("1. Afficher la liste brute");
+  console.log("2. Trier par nombre de votes (ordre décroissant)");
+  console.log("3. Filtrer par parti politique");
+  console.log("0. Retourner");
+
+  choix = prompt("Choisissez une option : ");
+
+  switch (choix) {
+    case "1":
+      for (i = 0; i < candidats.length; i++) {
+        console.log(`------------------ Candidat ${i + 1} ------------------`);
+        console.log(`CIN : ${candidats[i].cin}`);
+        console.log(`Nom : ${candidats[i].nom}`);
+        console.log(`Prénom : ${candidats[i].prenom}`);
+        console.log(`Parti Politique : ${candidats[i].partiPolitique}`);
+        console.log(`Age : ${candidats[i].age}`);
+        console.log(`Nombre de votes : ${candidats[i].electeurs.length}`);
+      }
+    case "2":
+      let décroicandidats = []
+      for (i = 0; i < candidats.length; i++) {
+        console.log(`------------------ Candidat ${i + 1} ------------------`);
+      }
+  }
 }
 
 do {
@@ -242,7 +265,7 @@ do {
       console.log("Candidats ajoutés avec succès !");
       break;
     case "3":
-      // Afficher la liste des candidats
+      afchliste();
       break;
     case "4":
       // Voter
