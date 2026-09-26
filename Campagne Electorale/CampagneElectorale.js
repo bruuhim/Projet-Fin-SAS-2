@@ -188,6 +188,12 @@ function menu() {
 
 function Ajouter() {
   let cin = prompt("Entrez la CIN du candidat : ");
+  for (let i = 0; i < candidats.length; i++) {
+    if (candidats[i].cin === cin) {
+      console.log("CIN deja utilise.");
+      return false;
+    }
+  }
   let nom = prompt("Entrez le nom : ");
   let prenom = prompt("Entrez le prénom : ");
   let partiPolitique = prompt(
@@ -199,7 +205,8 @@ function Ajouter() {
 
   let age = +prompt("Entrez l'âge : ");
   if (age < 18) {
-    console.log("Vous n'êtes pas éligible pour voter.");
+    console.log("Age minimum pour etre candidat : 18 ans");
+    return false;
   } else {
     let nouveauCandidat = {
       cin: cin,
@@ -211,17 +218,23 @@ function Ajouter() {
     };
 
     candidats.push(nouveauCandidat);
+    return true;
   }
 }
 
 function Ajouterplus() {
   choix = +prompt("Combien de candidats souhaitez-vous ajouter : ");
   let i = 0;
+  let ajoutes = 0;
   while (i < choix) {
     console.log(`------------------ Candidat ${i + 1} ------------------`);
-    Ajouter();
+    let ok = Ajouter();
+    if (ok) {
+      ajoutes = ajoutes + 1;
+    }
     i++;
   }
+  console.log(ajoutes + " candidat(s) ajoute(s).");
 }
 
 function afchliste() {
@@ -288,6 +301,7 @@ function afchliste() {
         }
         let partiChoisi = prompt("Choisir un nom de parti : ");
 
+        let trouve = false;
         for (let i = 0; i < candidats.length; i++) {
           if (
             candidats[i].partiPolitique.toUpperCase() ===
@@ -302,7 +316,11 @@ function afchliste() {
             console.log(`Parti Politique : ${candidats[i].partiPolitique}`);
             console.log(`Age : ${candidats[i].age}`);
             console.log(`Nombre de votes : ${candidats[i].electeurs.length}`);
+            trouve = true;
           }
+        }
+        if (trouve === false) {
+          console.log("Aucun candidat dans ce parti.");
         }
         break;
       case "0":
@@ -320,12 +338,13 @@ do {
 
   switch (choix) {
     case "1":
-      Ajouter();
-      console.log("Candidat ajouté avec succès !");
+      let ok = Ajouter();
+      if (ok) {
+        console.log("Candidat ajouté avec succès !");
+      }
       break;
     case "2":
       Ajouterplus();
-      console.log("Candidats ajoutés avec succès !");
       break;
     case "3":
       afchliste();
