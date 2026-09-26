@@ -337,7 +337,7 @@ function votercin() {
 
   for (let i = 0; i < candidats.length; i++) {
     if (candidats[i].electeurs.includes(cinElecteur)) {
-      console.log("Vous avez déjà voté.");
+      console.log("Vous avez déjà voté");
       return false;
     }
   }
@@ -351,9 +351,11 @@ function votercin() {
     }
   }
 
-  console.log("Aucun candidat ne possède ce CIN.");
+  console.log("Aucun candidat ne possède ce CIN");
   return false;
 }
+
+function Modifier() {}
 
 do {
   menu();
@@ -399,4 +401,3 @@ do {
       console.log("Option invalide, réessayez.");
   }
 } while (choix !== "0");
-
