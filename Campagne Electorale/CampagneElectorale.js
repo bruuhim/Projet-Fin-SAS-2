@@ -190,7 +190,7 @@ function Ajouter() {
   let cin = prompt("Entrez la CIN du candidat : ");
   for (let i = 0; i < candidats.length; i++) {
     if (candidats[i].cin === cin) {
-      console.log("CIN deja utilise.");
+      console.log("CIN deja utilise");
       return false;
     }
   }
@@ -209,7 +209,7 @@ function Ajouter() {
     return false;
   } else {
     let nouveauCandidat = {
-      cin: cin,
+      cin: cin.toUpperCase(),
       nom: nom,
       prenom: prenom,
       partiPolitique: partiPolitique,
@@ -332,6 +332,30 @@ function afchliste() {
   } while (choix !== "0");
 }
 
+function votercin() {
+  let cinElecteur = prompt("Entrez la CIN pour voter : ");
+  for (let i = 0; i < candidats.length; i++) {
+    if (candidats[i].electeurs.includes(cinElecteur.toUpperCase())) {
+      console.log(
+        "Vous avez déjà voté et vous n’avez pas le droit de modifier votre vote ni de voter à nouveau",
+      );
+      return false;
+    }
+  }
+  let cincan = prompt("Entrer la CIN du candidat ciblé : ");
+  for (let i = 0; i < candidats.length; i++) {
+    if (candidats[i].cin !== cincan) {
+      console.log("Aucun candidat ne possède ce CIN");
+    } else if (candidats[i].partiPolitique === "Indépendant") {
+      console.log("Vous ne pouvez pas voter pour le candidat Indépendant");
+    }
+    return false;
+  }
+
+  candidats[i].electeurs.push(cinElecteur);
+  return true;
+}
+
 do {
   menu();
   choix = prompt("Choisissez une option (0-8) : ");
@@ -350,7 +374,10 @@ do {
       afchliste();
       break;
     case "4":
-      // Voter
+      let okk = votercin();
+      if (okk) {
+        console.log("Vote ajouté avec succès !");
+      }
       break;
     case "5":
       // Modifier
@@ -371,3 +398,4 @@ do {
       console.log("Option invalide, réessayez.");
   }
 } while (choix !== "0");
+
