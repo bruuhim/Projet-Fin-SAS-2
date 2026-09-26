@@ -1,6 +1,6 @@
 const prompt = require("prompt-sync")();
 
-const candidats = [
+let candidats = [
   {
     cin: "AB123456",
     nom: "Haiker",
@@ -333,27 +333,26 @@ function afchliste() {
 }
 
 function votercin() {
-  let cinElecteur = prompt("Entrez la CIN pour voter : ");
+  let cinElecteur = prompt("Entrez la CIN pour voter : ").toUpperCase();
+
   for (let i = 0; i < candidats.length; i++) {
-    if (candidats[i].electeurs.includes(cinElecteur.toUpperCase())) {
-      console.log(
-        "Vous avez déjà voté et vous n’avez pas le droit de modifier votre vote ni de voter à nouveau",
-      );
+    if (candidats[i].electeurs.includes(cinElecteur)) {
+      console.log("Vous avez déjà voté.");
       return false;
     }
   }
-  let cincan = prompt("Entrer la CIN du candidat ciblé : ");
+
+  let cincan = prompt("Entrer la CIN du candidat ciblé : ").toUpperCase();
+
   for (let i = 0; i < candidats.length; i++) {
-    if (candidats[i].cin !== cincan) {
-      console.log("Aucun candidat ne possède ce CIN");
-    } else if (candidats[i].partiPolitique === "Indépendant") {
-      console.log("Vous ne pouvez pas voter pour le candidat Indépendant");
+    if (candidats[i].cin === cincan) {
+      candidats[i].electeurs.push(cinElecteur);
+      return true;
     }
-    return false;
   }
 
-  candidats[i].electeurs.push(cinElecteur);
-  return true;
+  console.log("Aucun candidat ne possède ce CIN.");
+  return false;
 }
 
 do {
@@ -375,10 +374,12 @@ do {
       break;
     case "4":
       let okk = votercin();
+
       if (okk) {
         console.log("Vote ajouté avec succès !");
       }
       break;
+
     case "5":
       // Modifier
       break;
