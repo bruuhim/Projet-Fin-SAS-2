@@ -1,4 +1,5 @@
 const prompt = require("prompt-sync")();
+let choix;
 
 let candidats = [
   {
@@ -176,8 +177,6 @@ let candidats = [
     electeurs: ["GB159473", "HB357206"],
   },
 ];
-
-let choix;
 
 function menu() {
   console.log("-------------------------------------------");
@@ -456,6 +455,88 @@ function Rechercher() {
   }
 }
 
+function Statistiques() {
+  let statsChoix;
+  do {
+    console.log("1. Afficher le nombre total de candidats");
+    console.log(
+      "2. Afficher le nombre total de votes exprimés dans toute l'élection",
+    );
+    console.log("3. Afficher le Top 3 des candidats ayant le plus de votes");
+    console.log("4. Afficher le nombre de candidats par parti politique");
+    console.log("0. Retourner");
+
+    statsChoix = prompt("Choisissez une option : ");
+
+    switch (statsChoix) {
+      case "1":
+        console.log(
+          `Le nombre total de candidats est : ${candidats.length} candidats`,
+        );
+        break;
+      case "2":
+        let total = 0;
+        for (let i = 0; i < candidats.length; i++) {
+          total += candidats[i].electeurs.length;
+        }
+        console.log(
+          `Le nombre total de votes exprimés dans toute l'élection est : ${total} votes`,
+        );
+        break;
+      case "3":
+        let décroicandidats = [...candidats];
+        for (let i = 0; i < décroicandidats.length; i++) {
+          for (let j = i + 1; j < décroicandidats.length; j++) {
+            if (
+              décroicandidats[i].electeurs.length <
+              décroicandidats[j].electeurs.length
+            ) {
+              let temp = décroicandidats[i];
+              décroicandidats[i] = décroicandidats[j];
+              décroicandidats[j] = temp;
+            }
+          }
+        }
+        console.log(`Le Top 3 des candidats ayant le plus de votes : `);
+        for (let i = 0; i < 3; i++) {
+          console.log(
+            `------------------ Candidat ${i + 1} ------------------`,
+          );
+          console.log(`CIN : ${décroicandidats[i].cin}`);
+          console.log(`Nom : ${décroicandidats[i].nom}`);
+          console.log(`Prénom : ${décroicandidats[i].prenom}`);
+          console.log(`Parti Politique : ${décroicandidats[i].partiPolitique}`);
+          console.log(`Age : ${décroicandidats[i].age}`);
+          console.log(
+            `Nombre de votes : ${décroicandidats[i].electeurs.length}`,
+          );
+        }
+        break;
+      case "4":
+        let uniqueParties = [];
+        for (let i = 0; i < candidats.length; i++) {
+          if (!uniqueParties.includes(candidats[i].partiPolitique)) {
+            uniqueParties.push(candidats[i].partiPolitique);
+          }
+        }
+        for (let i = 0; i < uniqueParties.length; i++) {
+          let compteur = 0;
+          for (let j = 0; j < candidats.length; j++) {
+            if (candidats[j].partiPolitique === uniqueParties[i]) {
+              compteur += 1;
+            }
+          }
+          console.log(uniqueParties[i] + " : " + compteur);
+        }
+        break;
+      case "0":
+        break;
+      default:
+        console.log("Option invalide, réessayez.");
+    }
+  } while (statsChoix !== "0");
+}
+
 do {
   menu();
   choix = prompt("Choisissez une option (0-8) : ");
@@ -499,7 +580,7 @@ do {
       Rechercher();
       break;
     case "8":
-      // Statistiques
+      Statistiques();
       break;
     case "0":
       console.log("Au revoir !");
