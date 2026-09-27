@@ -7,7 +7,14 @@ let candidats = [
     prenom: "Abdessamad",
     partiPolitique: "PJD",
     age: 48,
-    electeurs: ["KA102938", "MA881234", "EE554433", "HA991122", "TA334411"],
+    electeurs: [
+      "KA102938",
+      "MA881234",
+      "EE554433",
+      "HA991122",
+      "TA334411",
+      "CD345678",
+    ],
   },
   {
     cin: "BH234567",
@@ -362,7 +369,7 @@ function Modifier() {
     if (cinmodi === candidats[i].cin) {
       trouve = true;
       console.log(`------------------------------------`);
-      console.log(`Votre parti politic est : ${candidats[i].partiPolitique}`);
+      console.log(`Votre parti politique est : ${candidats[i].partiPolitique}`);
       console.log(`Votre age est : ${candidats[i].age}`);
       console.log(`------------------------------------`);
       let nvparti = prompt("Entrez le nouveau parti politique : ");
@@ -380,6 +387,47 @@ function Modifier() {
     console.log("Candidat introuvable.");
   }
 }
+
+function Supprimer() {
+  let cinsup = prompt("Veuillez entrer la CIN pour Supprimer : ").toUpperCase();
+  let trouve = false;
+  let position = 0;
+  for (let i = 0; i < candidats.length; i++) {
+    if (cinsup === candidats[i].cin) {
+      position = i;
+      trouve = true;
+    }
+  }
+  if (trouve === false) {
+    console.log("Candidat introuvable.");
+    return false;
+  }
+  console.log("-------------------------------------------");
+  console.log(
+    `Vous allez supprimer le candidat : ${candidats[position].nom} ${candidats[position].prenom}`,
+  );
+
+  candidats[position] = candidats[candidats.length - 1];
+  candidats.length = candidats.length - 1;
+
+  for (let i = 0; i < candidats.length; i++) {
+    let newcan = [];
+    for (let j = 0; j < candidats[i].electeurs.length; j++) {
+      if (candidats[i].electeurs[j] !== cinsup) {
+        newcan.push(candidats[i].electeurs[j]);
+      } else {
+        console.log(
+          `Ce candidat est un electeur pour :  ${candidats[i].nom} ${candidats[i].prenom}`,
+        );
+      }
+    }
+    candidats[i].electeurs = newcan;
+  }
+
+  return true;
+}
+
+
 
 do {
   menu();
@@ -414,7 +462,11 @@ do {
       }
       break;
     case "6":
-      // Supprimer
+      let ok4 = Supprimer();
+
+      if (ok4) {
+        console.log("Candidat supprimé avec succès !");
+      }
       break;
     case "7":
       // Rechercher
