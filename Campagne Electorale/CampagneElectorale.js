@@ -169,7 +169,7 @@ let candidats = [
   },
   {
     cin: "UV012345",
-    nom: "Fassi Fihri",
+    nom: "Fihri",
     prenom: "Abdelmajid",
     partiPolitique: "Istiqlal",
     age: 45,
@@ -427,7 +427,34 @@ function Supprimer() {
   return true;
 }
 
+function Rechercher() {
+  let nomrech = prompt("Entrez le nom : ");
+  if (nomrech === "") {
+    console.log("Veuillez entrer un nom");
+    return;
+  }
 
+  let nomforma = nomrech[0].toUpperCase();
+  for (let i = 1; i < nomrech.length; i++) {
+    nomforma += nomrech[i].toLowerCase();
+  }
+  let trouve = false;
+  for (let i = 0; i < candidats.length; i++) {
+    if (nomforma === candidats[i].nom) {
+      trouve = true;
+      console.log(`------------------ Candidat ${i + 1} ------------------`);
+      console.log(`CIN : ${candidats[i].cin}`);
+      console.log(`Nom : ${candidats[i].nom}`);
+      console.log(`Prénom : ${candidats[i].prenom}`);
+      console.log(`Parti Politique : ${candidats[i].partiPolitique}`);
+      console.log(`Age : ${candidats[i].age}`);
+      console.log(`Nombre de votes : ${candidats[i].electeurs.length}`);
+    }
+  }
+  if (trouve === false) {
+    console.log("Candidat introuvable");
+  }
+}
 
 do {
   menu();
@@ -469,7 +496,7 @@ do {
       }
       break;
     case "7":
-      // Rechercher
+      Rechercher();
       break;
     case "8":
       // Statistiques
