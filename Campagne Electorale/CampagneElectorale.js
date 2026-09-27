@@ -223,10 +223,10 @@ function Ajouter() {
 }
 
 function Ajouterplus() {
-  choix = +prompt("Combien de candidats souhaitez-vous ajouter : ");
+  let nombre = +prompt("Combien de candidats souhaitez-vous ajouter : ");
   let i = 0;
   let ajoutes = 0;
-  while (i < choix) {
+  while (i < nombre) {
     console.log(`------------------ Candidat ${i + 1} ------------------`);
     let ok = Ajouter();
     if (ok) {
@@ -238,15 +238,16 @@ function Ajouterplus() {
 }
 
 function afchliste() {
+  let sousChoix;
   do {
     console.log("1. Afficher la liste brute");
     console.log("2. Trier par nombre de votes (ordre décroissant)");
     console.log("3. Filtrer par parti politique");
     console.log("0. Retourner");
 
-    choix = prompt("Choisissez une option : ");
+    sousChoix = prompt("Choisissez une option : ");
 
-    switch (choix) {
+    switch (sousChoix) {
       case "1":
         for (let i = 0; i < candidats.length; i++) {
           console.log(
@@ -324,12 +325,11 @@ function afchliste() {
         }
         break;
       case "0":
-        menu();
         break;
       default:
         console.log("Option invalide, réessayez.");
     }
-  } while (choix !== "0");
+  } while (sousChoix !== "0");
 }
 
 function votercin() {
@@ -355,7 +355,31 @@ function votercin() {
   return false;
 }
 
-function Modifier() {}
+function Modifier() {
+  let cinmodi = prompt("Veuillez entrer la CIN : ").toUpperCase();
+  let trouve = false;
+  for (let i = 0; i < candidats.length; i++) {
+    if (cinmodi === candidats[i].cin) {
+      trouve = true;
+      console.log(`------------------------------------`);
+      console.log(`Votre parti politic est : ${candidats[i].partiPolitique}`);
+      console.log(`Votre age est : ${candidats[i].age}`);
+      console.log(`------------------------------------`);
+      let nvparti = prompt("Entrez le nouveau parti politique : ");
+      let nvage = +prompt("Entrez le nouvel age : ");
+      if (nvage < 18) {
+        console.log("Age minimum pour etre candidat : 18 ans");
+      } else {
+        candidats[i].age = nvage;
+        candidats[i].partiPolitique = nvparti;
+        return true;
+      }
+    }
+  }
+  if (trouve === false) {
+    console.log("Candidat introuvable.");
+  }
+}
 
 do {
   menu();
@@ -363,8 +387,8 @@ do {
 
   switch (choix) {
     case "1":
-      let ok = Ajouter();
-      if (ok) {
+      let ok1 = Ajouter();
+      if (ok1) {
         console.log("Candidat ajouté avec succès !");
       }
       break;
@@ -375,15 +399,19 @@ do {
       afchliste();
       break;
     case "4":
-      let okk = votercin();
+      let ok2 = votercin();
 
-      if (okk) {
+      if (ok2) {
         console.log("Vote ajouté avec succès !");
       }
       break;
 
     case "5":
-      // Modifier
+      let ok3 = Modifier();
+
+      if (ok3) {
+        console.log("Candidat modifié avec succès !");
+      }
       break;
     case "6":
       // Supprimer
